@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Desiree, Will You Marry Me?</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background: url('romantic-background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+        h1, h2 {
+            margin-top: 100px; /* Lowered the text */
+            text-shadow: 2px 2px 4px #000000;
+        }
+        .button-container {
+            margin-top: 150px; /* Lowered the buttons */
+        }
+        .image-button {
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+            border-radius: 20px; /* Rounded corners for smoothness */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+            border: none; /* Remove default border */
+            padding: 20px 40px; /* Bigger buttons */
+            background-color: #ff6f61; /* Button background color */
+            color: white; /* Button text color */
+            font-size: 24px; /* Bigger text size */
+            font-weight: bold; /* Make text bold */
+        }
+        .image-button:hover {
+            transform: scale(1.1); /* Smooth hover effect */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+            background-color: #ff3b2f; /* Darker background on hover */
+        }
+        .image-button:active {
+            transform: scale(0.95); /* Smooth click effect */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Reduced shadow on click */
+        }
+        p {
+            font-size: 30px; /* Increased the response text size */
+            margin-top: 50px; /* Lowered the response text */
+            text-shadow: 1px 1px 3px #000000;
+        }
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            clip-path: polygon(50% 0%, 100% 35%, 80% 100%, 50% 80%, 20% 100%, 0% 35%);
+            animation: float 2s ease-in-out infinite;
+        }
+        .broken-heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: gray;
+            clip-path: polygon(50% 0%, 100% 35%, 80% 100%, 50% 80%, 20% 100%, 0% 35%);
+            animation: float 2s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-200px) scale(0.5);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Desiree, will you marry me? 😊</h1>
+    <h2>❤️</h2>
+    <div class="button-container">
+        <!-- Buttons with rounded corners -->
+        <button class="image-button" id="yesButton" onclick="sayYes()">Yes</button>
+        <button class="image-button" id="noButton" onclick="sayNo()">No</button>
+    </div>
+    <p id="response"></p>
+
+    <!-- Add audio elements -->
+    <audio id="happySound" src="happy.mp3"></audio>
+    <audio id="sadSound" src="sad.mp3"></audio>
+    <audio id="clickSound" src="click.mp3"></audio>
+
+    <script>
+        // Play click sound
+        function playClickSound() {
+            const clickSound = document.getElementById("clickSound");
+            clickSound.volume = 0.3; // Lower the volume
+            clickSound.play();
+        }
+
+        function sayYes() {
+            playClickSound(); // Play click sound
+            const happySound = document.getElementById("happySound");
+            happySound.volume = 0.5; // Lower the volume
+            happySound.play(); // Play happy sound
+            document.getElementById("response").innerText = "Yay! 🎉 I’m the happiest person alive! ❤️";
+
+            // Hide the "No" button
+            document.getElementById("noButton").style.display = "none";
+
+            // Add heart effects
+            createHearts('heart');
+        }
+
+        function sayNo() {
+            playClickSound(); // Play click sound
+            const sadSound = document.getElementById("sadSound");
+            sadSound.volume = 0.09; // Lower the volume
+            sadSound.play(); // Play sad sound
+            document.getElementById("response").innerText = "Oh no! 😢 But I respect your decision.";
+
+            // Hide the "Yes" button
+            document.getElementById("yesButton").style.display = "none";
+
+            // Add broken heart effects
+            createHearts('broken-heart');
+        }
+
+        // Function to create heart effects
+        function createHearts(className) {
+            const button = className === 'heart' ? document.getElementById("yesButton") : document.getElementById("noButton");
+            const buttonRect = button.getBoundingClientRect(); // Get button position
+            for (let i = 0; i < 10; i++) {
+                const heart = document.createElement("div");
+                heart.className = className;
+                heart.style.left = `${buttonRect.left + Math.random() * buttonRect.width}px`;
+                heart.style.top = `${buttonRect.top + window.scrollY}px`; // Adjust for scrolling
+                document.body.appendChild(heart);
+
+                // Remove the heart after animation
+                setTimeout(() => heart.remove(), 2000);
+            }
+        }
+    </script>
+</body>
+</html>
